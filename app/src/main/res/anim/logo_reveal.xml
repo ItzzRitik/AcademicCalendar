@@ -9,5 +9,5 @@
         android:pivotX="50%"     android:pivotY="50%">
     </scale>
     <translate android:fromYDelta="0" android:toYDelta="-570"/>
-    <alpha android:fromAlpha="0.72549" android:toAlpha="0.35"/>
+    <alpha android:fromAlpha="0.85" android:toAlpha="0.75"/>
 </set>

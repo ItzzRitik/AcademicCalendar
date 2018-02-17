@@ -15,17 +15,11 @@
             android:layout_height="match_parent"
             app:cardElevation="0dp"
             app:cardCornerRadius="10dp">
-            <com.sdsmdg.kd.trianglify.views.TrianglifyView
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/backG"
-                app:cellSize="100dp"
-                app:variance="70dp"
-                app:bleedX="100dp"
-                app:bleedY="100dp"
-                app:gridType="rectangle"
-                app:fillStrokes="true"
-                app:fillTriangle="true" />
+                android:scaleType="centerCrop"
+                android:background="@mipmap/back"/>
         </android.support.v7.widget.CardView>
         <RelativeLayout
             android:layout_width="150dp"
@@ -45,6 +39,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="3.5dp"
             android:id="@+id/ico_splash"
             android:layout_centerInParent="true"
             android:src="@drawable/logo"/>
@@ -131,7 +126,7 @@
                 android:text="Next"
                 android:textSize="11sp"
                 android:textAllCaps="true"
-                android:textColor="@color/colorPrimary"
+                android:textColor="#ff611c"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/signin"

@@ -2,10 +2,12 @@ package com.xtremecreations.academiccalendar;
 
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -14,15 +16,13 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
-import com.sdsmdg.kd.trianglify.models.Palette;
-import com.sdsmdg.kd.trianglify.views.TrianglifyView;
+import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
-    TrianglifyView backG;
     Animation anim;
     ImageView ico_splash;
     RelativeLayout login_div,logo_div,splash_cover;
+    TextView signin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,13 +30,27 @@ public class Login extends AppCompatActivity {
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
 
-        backG=findViewById(R.id.backG);
-        backG.setPalette(new Palette(getResources().getIntArray(R.array.theme)));
-
         ico_splash=findViewById(R.id.ico_splash);
         login_div=findViewById(R.id.login_div);
         logo_div=findViewById(R.id.logo_div);
         splash_cover=findViewById(R.id.splash_cover);
+
+        signin=findViewById(R.id.signin);
+        signin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vdub.ttf"));
+        signin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        signin.setBackgroundResource(R.drawable.signin_pressed);signin.setTextColor(Color.parseColor("#ffffff"));
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        signin.setBackgroundResource(R.drawable.signin);signin.setTextColor(Color.parseColor("#ff611c"));
+                        break;
+                }
+                return true;
+            }
+        });
 
         new Handler().postDelayed(new Runnable() {
             @Override
