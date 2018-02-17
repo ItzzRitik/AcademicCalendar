@@ -28,8 +28,8 @@
                 app:fillTriangle="true" />
         </android.support.v7.widget.CardView>
         <RelativeLayout
-            android:layout_width="140dp"
-            android:layout_height="140dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:id="@+id/logo_div"
             android:visibility="gone"
             android:background="@drawable/logo_back"
@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/ico_splash"
             android:layout_centerInParent="true"
-            android:src="@mipmap/logo"/>
+            android:src="@drawable/logo"/>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

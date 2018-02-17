@@ -43,7 +43,7 @@ public class Login extends AppCompatActivity {
             public void run() {
                 anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_trans);
                 splash_cover.setVisibility(View.GONE);
-                ico_splash.setImageResource(R.mipmap.logo);
+                ico_splash.setImageResource(R.drawable.logo);
                 Animation anima = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.logo_reveal);
                 logo_div.setVisibility(View.VISIBLE);logo_div.startAnimation(anima);ico_splash.startAnimation(anim);
                 new Handler().postDelayed(new Runnable() {@Override public void run() {

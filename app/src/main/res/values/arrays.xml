@@ -1,13 +1,13 @@
 <resources>
-    <color name="g1">#00150b</color>
-    <color name="g2">#010d07</color>
-    <color name="g3">#000d06</color>
-    <color name="g8">#05301a</color>
-    <color name="g9">#03331b</color>
-    <color name="g4">#07351e</color>
-    <color name="g6">#006633</color>
-    <color name="g7">#085830</color>
-    <color name="g5">#0d5631</color>
+    <color name="g1">#0a0300</color>
+    <color name="g2">#0d0501</color>
+    <color name="g3">#0d0400</color>
+    <color name="g8">#411806</color>
+    <color name="g9">#411604</color>
+    <color name="g4">#451c0a</color>
+    <color name="g6">#ff611c</color>
+    <color name="g7">#ff5713</color>
+    <color name="g5">#ff6c28</color>
 
     <array name="theme">
         <item>@color/g1</item>
