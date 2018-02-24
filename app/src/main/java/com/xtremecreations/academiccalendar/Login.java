@@ -46,12 +46,12 @@ public class Login extends AppCompatActivity {
                         break;
                     case MotionEvent.ACTION_UP:
                         signin.setBackgroundResource(R.drawable.signin);signin.setTextColor(Color.parseColor("#ff611c"));
+                        performSignIn();
                         break;
                 }
                 return true;
             }
         });
-
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -64,19 +64,11 @@ public class Login extends AppCompatActivity {
                     scaleY(login_div,48,300,new AccelerateDecelerateInterpolator());}},800);
             }},1500);
     }
-    public void scaleX(final View view,int x,int t, Interpolator interpolator)
+    public void performSignIn()
     {
-        ValueAnimator anim = ValueAnimator.ofInt(view.getMeasuredWidth(),(int)dptopx(x));anim.setInterpolator(interpolator);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-                layoutParams.width = (Integer) valueAnimator.getAnimatedValue();
-                view.setLayoutParams(layoutParams);
-            }
-        });
-        anim.setDuration(t);anim.start();
+
     }
+
     public void scaleY(final View view,int y,int t, Interpolator interpolator)
     {
         ValueAnimator anim = ValueAnimator.ofInt(view.getMeasuredHeight(),(int)dptopx(y));anim.setInterpolator(interpolator);
@@ -92,6 +84,4 @@ public class Login extends AppCompatActivity {
     }
     public float dptopx(float num)
     {return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, num, getResources().getDisplayMetrics());}
-    public float pxtodp(float num)
-    {return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, num, getResources().getDisplayMetrics());}
 }
