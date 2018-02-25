@@ -45,19 +45,6 @@
             android:src="@drawable/logo"/>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            android:id="@+id/social_trigger">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="55dp"
-                android:text="Swipe up to use social login"/>
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
@@ -81,43 +68,6 @@
                 android:maxLines="1"
                 android:fontFamily="sans-serif"
                 android:paddingEnd="30dp"
-                android:paddingStart="10dp"/>
-            <RelativeLayout
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignEnd="@+id/email"
-                android:layout_marginEnd="10dp"
-                android:visibility="gone"
-                android:id="@+id/email_reset"
-                android:background="@drawable/login_tittle">
-            </RelativeLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:id="@+id/divider1"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_below="@+id/email"
-                android:background="#616161"/>
-            <EditText
-                android:id="@+id/pass"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_below="@+id/email"
-                android:layout_marginStart="5dp"
-                android:textColor="#616161"
-                android:drawablePadding="10dp"
-                android:backgroundTint="#fff"
-                android:drawableStart="@drawable/password_ok"
-                android:hint="Enter Your Password"
-                android:visibility="gone"
-                android:enabled="false"
-                android:fontFamily="sans-serif"
-                android:inputType="textPassword"
-                android:textColorHint="#c7c7c7"
-                android:maxLines="1"
-                android:paddingEnd="100dp"
                 android:paddingStart="10dp"/>
             <TextView
                 android:layout_width="85dp"

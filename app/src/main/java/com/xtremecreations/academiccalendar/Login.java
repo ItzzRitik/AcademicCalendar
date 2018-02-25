@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,14 +15,19 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     Animation anim;
     ImageView ico_splash;
     RelativeLayout login_div,logo_div,splash_cover;
+    EditText email;
     TextView signin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +40,26 @@ public class Login extends AppCompatActivity {
         login_div=findViewById(R.id.login_div);
         logo_div=findViewById(R.id.logo_div);
         splash_cover=findViewById(R.id.splash_cover);
+
+        email=findViewById(R.id.email);
+        email.setOnKeyListener(new View.OnKeyListener()
+        {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            performSignIn();
+                            return true;
+                        default:break;
+                    }
+                }
+                return false;
+            }
+        });
 
         signin=findViewById(R.id.signin);
         signin.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vdub.ttf"));
@@ -66,9 +92,31 @@ public class Login extends AppCompatActivity {
     }
     public void performSignIn()
     {
+        if(isStudent(email.getText().toString())==1)
+        {
 
+        }
+        else if(isStudent(email.getText().toString())==0)
+        {
+
+        }
+        else
+        {
+            Toast.makeText(this, "Please Enter Correct ID", Toast.LENGTH_SHORT).show();
+        }
     }
-
+    public int isStudent(String text)
+    {
+        if(Pattern.compile("^[1-5][0-9][a-z]{3}[1-2][0-9]{3}$", Pattern.CASE_INSENSITIVE) .matcher(text).find())
+        {
+            return 1;
+        }
+        else if(Pattern.compile("^[5][0][0-9]{3}$", Pattern.CASE_INSENSITIVE) .matcher(text).find())
+        {
+            return 0;
+        }
+        return -1;
+    }
     public void scaleY(final View view,int y,int t, Interpolator interpolator)
     {
         ValueAnimator anim = ValueAnimator.ofInt(view.getMeasuredHeight(),(int)dptopx(y));anim.setInterpolator(interpolator);
