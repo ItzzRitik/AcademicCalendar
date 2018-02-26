@@ -26,9 +26,9 @@ import java.util.regex.Pattern;
 public class Login extends AppCompatActivity {
     Animation anim;
     ImageView ico_splash;
-    RelativeLayout login_div,logo_div,splash_cover;
+    RelativeLayout login_div,logo_div,splash_cover,title;
     EditText email;
-    TextView signin;
+    TextView signin,heading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +40,10 @@ public class Login extends AppCompatActivity {
         login_div=findViewById(R.id.login_div);
         logo_div=findViewById(R.id.logo_div);
         splash_cover=findViewById(R.id.splash_cover);
+        title=findViewById(R.id.title);
+
+        heading=findViewById(R.id.heading);
+        heading.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vdub.ttf"));
 
         email=findViewById(R.id.email);
         email.setOnKeyListener(new View.OnKeyListener()
@@ -94,11 +98,13 @@ public class Login extends AppCompatActivity {
     {
         if(isStudent(email.getText().toString())==1)
         {
-
+            scaleY(login_div,93,300,new AccelerateDecelerateInterpolator());
+            email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("STUDENT");
         }
         else if(isStudent(email.getText().toString())==0)
         {
-
+            scaleY(login_div,143,300,new AccelerateDecelerateInterpolator());
+            email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("ADMIN");
         }
         else
         {
@@ -113,6 +119,7 @@ public class Login extends AppCompatActivity {
         }
         else if(Pattern.compile("^[5][0][0-9]{3}$", Pattern.CASE_INSENSITIVE) .matcher(text).find())
         {
+
             return 0;
         }
         return -1;

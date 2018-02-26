@@ -61,7 +61,7 @@
                 android:textColor="#616161"
                 android:backgroundTint="#fff"
                 android:drawablePadding="10dp"
-                android:drawableStart="@drawable/email"
+                android:drawableStart="@drawable/id"
                 android:hint="Enter Your ID Number"
                 android:inputType="textEmailAddress"
                 android:textColorHint="#c7c7c7"
@@ -73,10 +73,10 @@
                 android:layout_width="85dp"
                 android:layout_height="30dp"
                 android:id="@+id/signin"
-                android:text="Next"
+                android:text="Login"
                 android:textSize="11sp"
                 android:textAllCaps="true"
-                android:textColor="#ff611c"
+                android:textColor="@color/colorAccent"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:background="@drawable/signin"
@@ -84,15 +84,40 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="15dp"/>
-            <ProgressBar
-                android:layout_width="38dp"
-                android:layout_height="38dp"
-                android:id="@+id/nextLoad"
-                android:layout_alignEnd="@+id/signin"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="4dp"
-                android:layout_marginEnd="-4.5dp"
-                android:visibility="gone"/>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_alignParentTop="true"
+                android:id="@+id/title"
+                android:visibility="gone">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentTop="true"
+                    android:elevation="2dp"
+                    android:background="@drawable/ribbon"/>
+                <android.support.v7.widget.CardView
+                    android:layout_width="280dp"
+                    android:layout_height="80dp"
+                    app:cardBackgroundColor="@color/title"
+                    app:cardCornerRadius="30dp"
+                    android:layout_marginTop="-40dp"
+                    app:cardPreventCornerOverlap="false"
+                    android:layout_centerHorizontal="true">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="40dp">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:textColor="#fff"
+                            android:textSize="18sp"
+                            android:id="@+id/heading"/>
+                    </RelativeLayout>
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 </RelativeLayout>
