@@ -105,6 +105,7 @@ public class Login extends AppCompatActivity {
         {
             scaleY(login_div,143,300,new AccelerateDecelerateInterpolator());
             email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("ADMIN");
+            signIn_moveLeft(true);
         }
         else
         {
@@ -123,6 +124,15 @@ public class Login extends AppCompatActivity {
             return 0;
         }
         return -1;
+    }
+    public void signIn_moveLeft(boolean where)
+    {
+        if(where)
+        {
+            RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) signin.getLayoutParams();
+            lp.removeRule(RelativeLayout.ALIGN_PARENT_END);lp.addRule(RelativeLayout.CENTER_HORIZONTAL);
+            signin.setLayoutParams(lp);
+        }
     }
     public void scaleY(final View view,int y,int t, Interpolator interpolator)
     {
