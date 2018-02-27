@@ -1,5 +1,6 @@
 package com.xtremecreations.academiccalendar;
 
+import android.*;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -64,6 +66,8 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+        ActivityCompat.requestPermissions(Login.this, new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
 
         ico_splash=findViewById(R.id.ico_splash);
         login_div=findViewById(R.id.login_div);
@@ -241,23 +245,21 @@ public class Login extends AppCompatActivity {
             email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("ADMIN LOGIN");
             adminPane.setVisibility(View.VISIBLE);
         }
-        else
-        {
-            Toast.makeText(this, "Please Enter Correct ID", Toast.LENGTH_SHORT).show();
-        }
+        else {Toast.makeText(this, "Please Enter Correct ID", Toast.LENGTH_SHORT).show();}
     }
 
     public void getRawFromPDF(String path)
     {
         String parsedText="";
         try {
-            PdfReader reader = new PdfReader(path);
-            int n = reader.getNumberOfPages();
+            PdfReader reader = new PdfReader(path);int n = reader.getNumberOfPages();
             for(int i=0;i<n;i++){parsedText=parsedText+PdfTextExtractor.getTextFromPage(reader,i+1).trim()+"\n";}
-            reader.close();
+            getDataFromRaw(parsedText);reader.close();loadTitle.setText("Reading data");
         }
-        catch (Exception e) {Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();}
-        getDataFromRaw(parsedText);loadTitle.setText("Reading data");
+        catch (Exception e) {
+            ButtonLoading(false,"Can't Find File");
+            new Handler().postDelayed(new Runnable()
+            {@Override public void run() {adminReset();}},1500);}
     }
     public void getDataFromRaw(String text)
     {
@@ -279,7 +281,7 @@ public class Login extends AppCompatActivity {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 upload.setText("✓");loadTitle.setText("Upload Complete");
                 new Handler().postDelayed(new Runnable()
-                {@Override public void run() {ButtonLoading(false);}},1500);
+                {@Override public void run() {ButtonLoading(false,"ThankYou");}},1500);
                 new Handler().postDelayed(new Runnable()
                 {@Override public void run() {adminReset();}},3000);
             }
@@ -296,12 +298,12 @@ public class Login extends AppCompatActivity {
         else if(Pattern.compile("^[5][0][0-9]{3}$", Pattern.CASE_INSENSITIVE) .matcher(text).find()) {return 0;}
         return -1;
     }
-    public void ButtonLoading(Boolean loading)
+    public void ButtonLoading(Boolean loading,final String newText)
     {
         if(loading)
         {
             scaleX(upload,35,300,new AnticipateInterpolator());upload.setBackgroundResource(R.drawable.signin_disabled);
-            upload.setText(" ");
+            upload.setText(newText);
             new Handler().postDelayed(new Runnable() {@Override public void run() {
                 nextLoad.setVisibility(View.VISIBLE);loadTitle.setVisibility(View.VISIBLE);
             }},300);
@@ -312,7 +314,7 @@ public class Login extends AppCompatActivity {
             upload.setBackgroundResource(R.drawable.signin);
             scaleX(upload,185,300,new OvershootInterpolator());
             new Handler().postDelayed(new Runnable()
-            {@Override public void run() {upload.setText("ThankYou");}},100);
+            {@Override public void run() {upload.setText(newText);}},100);
         }
     }
     public void showKeyboard(View view,boolean what)
@@ -331,9 +333,9 @@ public class Login extends AppCompatActivity {
     public void adminReset()
     {
         scaleY(login_div,48,350,new AnticipateInterpolator());
-        email.setVisibility(View.VISIBLE);title.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable()
-        {@Override public void run() {upload.setText("UPLOAD CALENDER");adminPane.setVisibility(View.GONE);}},350);
+        {@Override public void run() {upload.setText("UPLOAD CALENDER");adminPane.setVisibility(View.GONE);
+            email.setVisibility(View.VISIBLE);title.setVisibility(View.GONE);}},250);
     }
     public void studentReset()
     {
@@ -384,7 +386,7 @@ public class Login extends AppCompatActivity {
         super.onActivityResult(requestCode, resultcode, intent);
         if (requestCode == 1 && resultcode == RESULT_OK) {
             final Uri uri = intent.getData();
-            new Handler().postDelayed(new Runnable() {@Override public void run() {ButtonLoading(true);}},500);
+            new Handler().postDelayed(new Runnable() {@Override public void run() {ButtonLoading(true,"");}},500);
             new Handler().postDelayed(new Runnable() {@Override public void run() {getRawFromPDF(getRealPathFromURI(Login.this, uri));}},1500);
         }
     }
@@ -397,6 +399,9 @@ public class Login extends AppCompatActivity {
             cursor.moveToFirst();
             return cursor.getString(column_index);
         }
+        catch (Exception e){ButtonLoading(false,"Can't Find File");
+            new Handler().postDelayed(new Runnable()
+            {@Override public void run() {adminReset();}},1500);return null;}
         finally {if (cursor != null) {cursor.close();}}
     }
 }
