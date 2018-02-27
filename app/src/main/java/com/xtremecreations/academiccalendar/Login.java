@@ -14,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +57,7 @@ public class Login extends AppCompatActivity {
     ProgressBar nextLoad;
     ArrayList<String> dates,events;
     DatabaseReference fdb;
+    ImageView search_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +84,14 @@ public class Login extends AppCompatActivity {
 
         heading=findViewById(R.id.heading);
         heading.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vdub.ttf"));
+
+        search_button=findViewById(R.id.search_button);
+        search_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showKeyboard(search,false);performSearch(search.getText().toString());
+            }
+        });
 
         email=findViewById(R.id.email);
         email.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/exo2.ttf"));
@@ -121,6 +131,13 @@ public class Login extends AppCompatActivity {
                         default:break;
                     }
                 }
+                return false;
+            }
+        });
+        search.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                studentReset();
                 return false;
             }
         });
@@ -181,8 +198,14 @@ public class Login extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {@Override public void run() {
                 scaleY(login_div,450,350,new OvershootInterpolator());
                 search_results.setVisibility(View.VISIBLE);
-                String showevent=("● "+(events.get(dates.indexOf(date))).replace("\n","\n● "));
-                search_results.setText(showevent.substring(0,showevent.length()-2));
+                String showevent="No Results";
+                try
+                {
+                    showevent=("● "+(events.get(dates.indexOf(date))).replace("\n","\n● "));
+                    showevent=showevent.substring(0,showevent.length()-2);search_results.setGravity(Gravity.START|Gravity.TOP);
+                }
+                catch (Exception e){search_results.setGravity(Gravity.CENTER);}
+                search_results.setText(showevent);
             }},250);
         }
         else {Toast.makeText(this, "Enter a valid date", Toast.LENGTH_SHORT).show();}
@@ -311,6 +334,13 @@ public class Login extends AppCompatActivity {
         email.setVisibility(View.VISIBLE);title.setVisibility(View.GONE);
         new Handler().postDelayed(new Runnable()
         {@Override public void run() {upload.setText("UPLOAD CALENDER");adminPane.setVisibility(View.GONE);}},350);
+    }
+    public void studentReset()
+    {
+        scaleY(login_div,48,550,new AnticipateInterpolator());
+        new Handler().postDelayed(new Runnable() {@Override public void run() {
+            email.setVisibility(View.VISIBLE);title.setVisibility(View.GONE);search_results.setVisibility(View.GONE);
+            search.setText("");search_results.setText("");studentPane.setVisibility(View.GONE);}},500);
     }
     private void showFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
