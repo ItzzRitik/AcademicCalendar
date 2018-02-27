@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#1e1e1e</color>
+    <color name="colorPrimary">#282828</color>
     <color name="colorPrimaryDark">#ff611c</color>
     <color name="colorAccent">#ff611c</color>
+    <color name="splash">#99ff611c</color>
     <color name="title">#ff611c</color>
+    <color name="statusbar">#0000</color>
 </resources>
