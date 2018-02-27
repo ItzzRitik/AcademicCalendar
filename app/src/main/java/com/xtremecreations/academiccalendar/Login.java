@@ -32,6 +32,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
@@ -47,8 +49,8 @@ public class Login extends AppCompatActivity {
     EditText email;
     TextView signin,heading,upload,data;
     ProgressBar nextLoad;
-    ArrayList<String> dates;
-    ArrayList<String> events;
+    ArrayList<String> dates,events;
+    DatabaseReference fdb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -167,76 +169,29 @@ public class Login extends AppCompatActivity {
             for (int i = 0; i <n ; i++) {
                 parsedText   = parsedText+ PdfTextExtractor.getTextFromPage(reader, i+1).trim()+"\n";
             }
-            scaleY(login_div,750,300,new AccelerateDecelerateInterpolator());
+            scaleY(login_div,400,300,new AccelerateDecelerateInterpolator());
             reader.close();
         }
         catch (Exception e) {Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();}
         getDataFromRaw(parsedText);
+        //data.setText(parsedText);
     }
     public void getDataFromRaw(String text)
     {
-        int len=text.length();
-        int i=0,serial=1;
-        /*while(i<len)
-        {
-            if(i+8>len){break;}
-            String date=text.substring(i,i+8);
-            if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$",Pattern.CASE_INSENSITIVE).matcher(date).find())
-            {
-                dates.add(date);
-                for (int j=i+10;j<len;j++)
-                {
-                    String event="";
-                    if(j+8<len)
-                    {
-                        if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$",Pattern.CASE_INSENSITIVE).matcher(text.substring(j,j+8)).find()) {
-                            event=(text.substring(i+10,j)).replace('\n',' ');
-                            event=event.substring(0,event.length()-4);
-                            events.add(event);break;
-                        }
-                    }
-                    else
-                    {
-                        event=(text.substring(i+10,len)).replace('\n',' ');
-                        events.add(event);break;
-                    }
-                }
-            }
-            i++;
-        }*/
-        i=text.indexOf(serial+".");
+        int len=text.length(),i=text.indexOf("1."),serial=1;
         while(i<len)
         {
-            if(i==-1){break;}
-            if(i+8>len){break;}
-            String date=text.substring(i,i+8);
-            if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$",Pattern.CASE_INSENSITIVE).matcher(date).find())
-            {
-                dates.add(date);
-                for (int j=i+10;j<len;j++)
-                {
-                    String event="";
-                    if(j+8<len)
-                    {
-                        if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$",Pattern.CASE_INSENSITIVE).matcher(text.substring(j,j+8)).find()) {
-                            event=(text.substring(i+10,j)).replace('\n',' ');
-                            event=event.substring(0,event.length()-4);
-                            events.add(event);serial++;Log.d(date,""+serial);i=text.indexOf(serial+".");break;
-                        }
-                    }
-                    else
-                    {
-                        event=(text.substring(i+10,len)).replace('\n',' ');
-                        events.add(event);break;
-                    }
-                }
-            }
-            i++;
+            if(serial<10){i+=3;}else{i+=4;}
+            String date=text.substring(i,i+9);i=text.indexOf('\n',i);
+            dates.add(date.replace(" ",""));serial++;
+            if(!text.contains(serial+".")) {events.add(text.substring(i+1,len));break;}
+            events.add(text.substring(i+1,text.indexOf(serial+".")));i=text.indexOf(serial+".");
         }
-        String print="";
-        for (int k=0;k<dates.size()-1;k++)
-        print=print+dates.get(k)+" - "+events.get(k)+"\n";
 
+        fdb= FirebaseDatabase.getInstance().getReference("user_details");
+        String print="";
+        for (int k=0;k<dates.size();k++)
+        print=print+dates.get(k)+" - "+events.get(k)+"\n\n";
         data.setText(print+"\n"+dates.size()+"\n"+serial);
     }
 
