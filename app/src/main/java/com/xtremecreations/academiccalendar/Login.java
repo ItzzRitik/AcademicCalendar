@@ -50,9 +50,9 @@ import java.util.regex.Pattern;
 public class Login extends AppCompatActivity {
     Animation anim;
     ImageView ico_splash;
-    RelativeLayout login_div,logo_div,splash_cover,title,adminPane,studentPane;
+    RelativeLayout login_div,logo_div,splash_cover,title,loading,adminPane,studentPane;
     EditText email,search;
-    TextView signin,heading,upload,loadTitle;
+    TextView signin,heading,upload,loadTitle,search_results;
     ProgressBar nextLoad;
     ArrayList<String> dates,events;
     DatabaseReference fdb;
@@ -71,6 +71,9 @@ public class Login extends AppCompatActivity {
         adminPane=findViewById(R.id.adminPane);
         studentPane=findViewById(R.id.studentPane);
         nextLoad=findViewById(R.id.nextLoad);
+        loading=findViewById(R.id.loading);
+        search_results=findViewById(R.id.search_results);
+
         dates = new ArrayList<>();
         events = new ArrayList<>();
 
@@ -171,13 +174,15 @@ public class Login extends AppCompatActivity {
                     scaleY(login_div,48,300,new AccelerateDecelerateInterpolator());}},800);
             }},1500);
     }
-    public void performSearch(String date)
+    public void performSearch(final String date)
     {
         if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$", Pattern.CASE_INSENSITIVE) .matcher(date).find())
         {
             new Handler().postDelayed(new Runnable() {@Override public void run() {
                 scaleY(login_div,450,350,new OvershootInterpolator());
-
+                search_results.setVisibility(View.VISIBLE);
+                String showevent=("● "+(events.get(dates.indexOf(date))).replace("\n","\n● "));
+                search_results.setText(showevent.substring(0,showevent.length()-2));
             }},250);
         }
         else {Toast.makeText(this, "Enter a valid date", Toast.LENGTH_SHORT).show();}
@@ -186,9 +191,26 @@ public class Login extends AppCompatActivity {
     {
         if(isStudent(email.getText().toString())==1)
         {
-            showKeyboard(email,false);scaleY(login_div,127,350,new OvershootInterpolator());
-            email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("STUDENT LOGIN");
-            studentPane.setVisibility(View.VISIBLE);
+            dates = new ArrayList<>();events = new ArrayList<>();showKeyboard(email,false);loading.setVisibility(View.VISIBLE);
+            (FirebaseDatabase.getInstance().getReference("dates")).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){dates.add(postSnapshot.getValue().toString());}
+                    (FirebaseDatabase.getInstance().getReference("events")).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for(DataSnapshot postSnapshot : dataSnapshot.getChildren()){events.add(postSnapshot.getValue().toString());}
+                            scaleY(login_div,127,350,new OvershootInterpolator());
+                            email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("STUDENT LOGIN");
+                            loading.setVisibility(View.GONE);studentPane.setVisibility(View.VISIBLE);
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError error) {}
+                    });
+                }
+                @Override
+                public void onCancelled(DatabaseError error) {}
+            });
         }
         else if(isStudent(email.getText().toString())==0)
         {
