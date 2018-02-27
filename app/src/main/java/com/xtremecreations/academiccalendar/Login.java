@@ -32,22 +32,27 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.itextpdf.text.pdf.PdfReader;
 import com.itextpdf.text.pdf.parser.PdfTextExtractor;
 
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     Animation anim;
     ImageView ico_splash;
-    RelativeLayout login_div,logo_div,splash_cover,title,adminPane;
-    EditText email;
-    TextView signin,heading,upload,data;
+    RelativeLayout login_div,logo_div,splash_cover,title,adminPane,studentPane;
+    EditText email,search;
+    TextView signin,heading,upload,loadTitle;
     ProgressBar nextLoad;
     ArrayList<String> dates,events;
     DatabaseReference fdb;
@@ -64,15 +69,19 @@ public class Login extends AppCompatActivity {
         splash_cover=findViewById(R.id.splash_cover);
         title=findViewById(R.id.title);
         adminPane=findViewById(R.id.adminPane);
+        studentPane=findViewById(R.id.studentPane);
         nextLoad=findViewById(R.id.nextLoad);
-        data=findViewById(R.id.data);
         dates = new ArrayList<>();
         events = new ArrayList<>();
+
+        loadTitle=findViewById(R.id.loadTitle);
+        loadTitle.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/exo2.ttf"));
 
         heading=findViewById(R.id.heading);
         heading.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/vdub.ttf"));
 
         email=findViewById(R.id.email);
+        email.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/exo2.ttf"));
         email.setOnKeyListener(new View.OnKeyListener()
         {
             public boolean onKey(View v, int keyCode, KeyEvent event)
@@ -84,6 +93,27 @@ public class Login extends AppCompatActivity {
                         case KeyEvent.KEYCODE_DPAD_CENTER:
                         case KeyEvent.KEYCODE_ENTER:
                             performSignIn();
+                            return true;
+                        default:break;
+                    }
+                }
+                return false;
+            }
+        });
+
+        search=findViewById(R.id.search);
+        search.setTypeface(Typeface.createFromAsset(getAssets(), "fonts/exo2.ttf"));
+        search.setOnKeyListener(new View.OnKeyListener()
+        {
+            public boolean onKey(View v, int keyCode, KeyEvent event)
+            {
+                if (event.getAction() == KeyEvent.ACTION_DOWN)
+                {
+                    switch (keyCode)
+                    {
+                        case KeyEvent.KEYCODE_DPAD_CENTER:
+                        case KeyEvent.KEYCODE_ENTER:
+                            performSearch(search.getText().toString());
                             return true;
                         default:break;
                     }
@@ -141,16 +171,28 @@ public class Login extends AppCompatActivity {
                     scaleY(login_div,48,300,new AccelerateDecelerateInterpolator());}},800);
             }},1500);
     }
+    public void performSearch(String date)
+    {
+        if(Pattern.compile("^[0-9]{2}[/][0-9]{2}[/][0-9]{2}$", Pattern.CASE_INSENSITIVE) .matcher(date).find())
+        {
+            new Handler().postDelayed(new Runnable() {@Override public void run() {
+                scaleY(login_div,450,350,new OvershootInterpolator());
+
+            }},250);
+        }
+        else {Toast.makeText(this, "Enter a valid date", Toast.LENGTH_SHORT).show();}
+    }
     public void performSignIn()
     {
         if(isStudent(email.getText().toString())==1)
         {
-            showKeyboard(email,false);scaleY(login_div,93,300,new AccelerateDecelerateInterpolator());
+            showKeyboard(email,false);scaleY(login_div,127,350,new OvershootInterpolator());
             email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("STUDENT LOGIN");
+            studentPane.setVisibility(View.VISIBLE);
         }
         else if(isStudent(email.getText().toString())==0)
         {
-            showKeyboard(email,false);scaleY(login_div,198,300,new AccelerateDecelerateInterpolator());
+            showKeyboard(email,false);scaleY(login_div,200,350,new OvershootInterpolator());
             email.setVisibility(View.GONE);title.setVisibility(View.VISIBLE);heading.setText("ADMIN LOGIN");
             adminPane.setVisibility(View.VISIBLE);
         }
@@ -166,15 +208,11 @@ public class Login extends AppCompatActivity {
         try {
             PdfReader reader = new PdfReader(path);
             int n = reader.getNumberOfPages();
-            for (int i = 0; i <n ; i++) {
-                parsedText   = parsedText+ PdfTextExtractor.getTextFromPage(reader, i+1).trim()+"\n";
-            }
-            scaleY(login_div,400,300,new AccelerateDecelerateInterpolator());
+            for(int i=0;i<n;i++){parsedText=parsedText+PdfTextExtractor.getTextFromPage(reader,i+1).trim()+"\n";}
             reader.close();
         }
         catch (Exception e) {Toast.makeText(Login.this, e.toString(), Toast.LENGTH_LONG).show();}
-        getDataFromRaw(parsedText);
-        //data.setText(parsedText);
+        getDataFromRaw(parsedText);loadTitle.setText("Reading data");
     }
     public void getDataFromRaw(String text)
     {
@@ -187,12 +225,24 @@ public class Login extends AppCompatActivity {
             if(!text.contains(serial+".")) {events.add(text.substring(i+1,len));break;}
             events.add(text.substring(i+1,text.indexOf(serial+".")));i=text.indexOf(serial+".");
         }
-
-        fdb= FirebaseDatabase.getInstance().getReference("user_details");
-        String print="";
-        for (int k=0;k<dates.size();k++)
-        print=print+dates.get(k)+" - "+events.get(k)+"\n\n";
-        data.setText(print+"\n"+dates.size()+"\n"+serial);
+        loadTitle.setText("Uploading data");
+        (FirebaseDatabase.getInstance().getReference("dates")).setValue(dates);
+        fdb= FirebaseDatabase.getInstance().getReference("events");
+        fdb.setValue(events);
+        fdb.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                upload.setText("✓");loadTitle.setText("Upload Complete");
+                new Handler().postDelayed(new Runnable()
+                {@Override public void run() {ButtonLoading(false);}},1500);
+                new Handler().postDelayed(new Runnable()
+                {@Override public void run() {adminReset();}},3000);
+            }
+            @Override public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onChildRemoved(DataSnapshot dataSnapshot) {}
+            @Override public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+            @Override public void onCancelled(DatabaseError databaseError) {}
+        });
     }
 
     public int isStudent(String text)
@@ -208,14 +258,16 @@ public class Login extends AppCompatActivity {
             scaleX(upload,35,300,new AnticipateInterpolator());upload.setBackgroundResource(R.drawable.signin_disabled);
             upload.setText(" ");
             new Handler().postDelayed(new Runnable() {@Override public void run() {
-                nextLoad.setVisibility(View.VISIBLE);
+                nextLoad.setVisibility(View.VISIBLE);loadTitle.setVisibility(View.VISIBLE);
             }},300);
         }
         else
         {
-            nextLoad.setVisibility(View.GONE);scaleX(signin,85,300,new OvershootInterpolator());
+            nextLoad.setVisibility(View.GONE);loadTitle.setVisibility(View.GONE);
+            upload.setBackgroundResource(R.drawable.signin);
+            scaleX(upload,185,300,new OvershootInterpolator());
             new Handler().postDelayed(new Runnable()
-            {@Override public void run() {upload.setText("✔");}},300);
+            {@Override public void run() {upload.setText("ThankYou");}},100);
         }
     }
     public void showKeyboard(View view,boolean what)
@@ -230,6 +282,13 @@ public class Login extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+    public void adminReset()
+    {
+        scaleY(login_div,48,350,new AnticipateInterpolator());
+        email.setVisibility(View.VISIBLE);title.setVisibility(View.GONE);
+        new Handler().postDelayed(new Runnable()
+        {@Override public void run() {upload.setText("UPLOAD CALENDER");adminPane.setVisibility(View.GONE);}},350);
     }
     private void showFileChooser() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);

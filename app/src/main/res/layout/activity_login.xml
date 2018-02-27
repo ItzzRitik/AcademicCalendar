@@ -108,16 +108,6 @@
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
                 android:id="@+id/adminPane">
-                <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#fff">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="9sp"
-                        android:id="@+id/data"/>
-                </ScrollView>
                 <TextView
                     android:layout_width="185dp"
                     android:layout_height="35dp"
@@ -125,8 +115,6 @@
                     android:gravity="center"
                     android:id="@+id/upload"
                     android:textSize="16sp"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
                     android:textColor="@color/colorAccent"
                     android:background="@drawable/signin"
                     android:text="UPLOAD CALENDER"/>
@@ -136,6 +124,42 @@
                     android:id="@+id/nextLoad"
                     android:visibility="gone"
                     android:layout_centerInParent="true"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/loadTitle"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="12sp"
+                    android:layout_marginTop="15dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_below="@+id/nextLoad"
+                    android:visibility="gone"
+                    android:text="Loading file"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="45dp"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"
+                android:id="@+id/studentPane">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="22dp"
+                    android:id="@+id/search"
+                    android:background="@drawable/search"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:drawablePadding="10dp"
+                    android:drawableStart="@drawable/search_ico"
+                    android:textSize="14sp"
+                    android:hint="Enter Date Here (DD/MM/YY)"
+                    android:maxLines="1"
+                    android:paddingStart="12dp"
+                    android:singleLine="true"
+                    android:textColor="@color/colorAccent"
+                    android:textColorHint="#4bff793f"/>
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
