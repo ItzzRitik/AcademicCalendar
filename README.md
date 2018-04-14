@@ -1,6 +1,5 @@
 # Academic Calendar
-**Academic Calendar** mobile application is fabricated for universities to distribute academics related schedules and activities among students in an **organised manner**. This application is fully independent as it uses online database to share its dataset.  
-```Firebase is used as online database in this app.```
+**Academic Calendar** mobile application is fabricated for universities to distribute academics related schedules and activities among students in an **organised manner**. This application is fully independent as it uses online database to share its dataset. **Firebase** is used as online database in this app.
 
 **It consist of two login portals :**  
     • Faculty Login  
