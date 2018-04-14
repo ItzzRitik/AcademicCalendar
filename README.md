@@ -16,3 +16,7 @@ Students can login just by entering their **Registration Number**. After logging
 - Dark Elegant User Interface with orange accent and lots of animation.
 -	Different login (faculty/student) is recognised using Regex.
 - Uploads a processed dataset instead of file for quick fetching.
+
+## Download  
+This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation, and good news it's totally free. Get you hands on it down below.  
+[Download Now](academic_calendar.apk?raw=true) 
