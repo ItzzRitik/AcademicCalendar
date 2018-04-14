@@ -6,4 +6,4 @@ Academic Calendar mobile application is fabricated for universities to distribut
     • Student Login
 
 ### Faculty Login
-Faculty can login just by entering their **Faculty ID**, after logging in Faculty Portal will be displayed where, they can upload any unformatted pdf/doc file. 
+Faculty can login just by entering their **Faculty ID**. After logging in Faculty Portal will be displayed where, they can upload any unformatted pdf/doc file. 
