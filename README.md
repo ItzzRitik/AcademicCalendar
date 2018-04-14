@@ -13,6 +13,6 @@ Students can login just by entering their **Registration Number**. After logging
 
 ## Features
 - Uses firebase database which is fast and secure.
-- Dark Elegant User Interface with orange accent.
+- Dark Elegant User Interface with orange accent and lots of animation.
 -	Different login (faculty/student) is recognised using Regex.
-- Uploads a processed dataset instead of document file for quick fetching.
+- Uploads a processed dataset instead of file for quick fetching.
