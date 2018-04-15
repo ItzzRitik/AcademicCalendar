@@ -17,6 +17,11 @@ Students can login just by entering their **Registration Number**. After logging
 -	Different login (faculty/student) is recognised using Regex.
 - Uploads a processed dataset instead of file for quick fetching.
 
+
+## Screenshots
+
+<img src="screenshots/s.png" width="33.3333%"><img src="screenshots/h.png" width="33.3333%"><img src="screenshots/a.png" width="33.3333%"><img src="screenshots/a_u.png" width="33.3333%"><img src="screenshots/s_r.png" width="33.3333%"><img src="screenshots/s_nr.png" width="33.3333%">
+
 ## Download  
 This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation. Get you hands on it down below for free.  
 
