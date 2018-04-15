@@ -27,4 +27,4 @@ Academic calender document must be of similar format as represented in [here](ca
 ## Download  
 This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation. Get you hands on it down below for free.  
 
-[<img src="http://vshareapp.info/wp-content/uploads/2017/04/free-Download-Button-png.png" width="200">](academic_calendar.apk?raw=true)
+[<img src="screenshots/download_button.png" width="200">](academic_calendar.apk?raw=true)
