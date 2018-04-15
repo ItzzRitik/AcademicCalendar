@@ -17,6 +17,8 @@ Students can login just by entering their **Registration Number**. After logging
 -	Different login (faculty/student) is recognised using Regex.
 - Uploads a processed dataset instead of file for quick fetching.
 
+## Template
+Academic calender document must be of similar format as represented in [here](calendar.pdf?raw=true)
 
 ## Screenshots
 
