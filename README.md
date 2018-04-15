@@ -19,4 +19,5 @@ Students can login just by entering their **Registration Number**. After logging
 
 ## Download  
 This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation, and good news it's totally free. Get you hands on it down below.  
-[Download Now](academic_calendar.apk?raw=true) 
+
+[<img src="http://vshareapp.info/wp-content/uploads/2017/04/free-Download-Button-png.png" width="200">](academic_calendar.apk?raw=true)
