@@ -25,6 +25,6 @@ Academic calender document must be of similar format as represented in [here](ca
 <img src="screenshots/s.png" width="33.3333%"><img src="screenshots/h.png" width="33.3333%"><img src="screenshots/a.png" width="33.3333%"><img src="screenshots/a_u.png" width="33.3333%"><img src="screenshots/s_r.png" width="33.3333%"><img src="screenshots/s_nr.png" width="33.3333%">
 
 ## Download  
-This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation. Get you hands on it down below for free.  
+This **Academic Calendar** mobile application is packed with lot of features and ideal for any organisation. Get your hands on it for free.  
 
 [<img src="screenshots/download_button.png" width="200">](academic_calendar.apk?raw=true)
