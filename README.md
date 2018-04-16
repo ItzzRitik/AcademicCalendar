@@ -21,7 +21,6 @@ Students can login just by entering their **Registration Number**. After logging
 Academic calender document must be of similar format as represented in [here](calendar.pdf?raw=true)
 
 ## Screenshots
-
 <img src="screenshots/s.png" width="33.3333%"><img src="screenshots/h.png" width="33.3333%"><img src="screenshots/a.png" width="33.3333%"><img src="screenshots/a_u.png" width="33.3333%"><img src="screenshots/s_r.png" width="33.3333%"><img src="screenshots/s_nr.png" width="33.3333%">
 
 ## Download  
