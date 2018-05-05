@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1072458802594",
+    "firebase_url": "https://academiccalendar-98f88.firebaseio.com",
+    "project_id": "academiccalendar-98f88",
+    "storage_bucket": "academiccalendar-98f88.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072458802594:android:8d54f533b8a341f3",
+        "android_client_info": {
+          "package_name": "com.xtremecreations.academiccalendar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072458802594-eicmm6lc00p53cack5hb005h5aifvgpo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.xtremecreations.academiccalendar",
+            "certificate_hash": "a19fc234ae9bfe9b6a277866131b2cc18e49cad1"
+          }
+        },
+        {
+          "client_id": "1072458802594-hr6qdo3tqiq1jdir6cl5qbmcd6ae3u44.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDkNUrwU7emRlZHePmr39d9rY9K4JzhT1Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072458802594-hr6qdo3tqiq1jdir6cl5qbmcd6ae3u44.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
