@@ -52,14 +52,13 @@ import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
     Animation anim;
-    ImageView ico_splash;
+    ImageView ico_splash,search_button;
     RelativeLayout login_div,logo_div,splash_cover,title,loading,adminPane,studentPane;
     EditText email,search;
     TextView signin,heading,upload,loadTitle,search_results;
     ProgressBar nextLoad;
     ArrayList<String> dates,events;
     DatabaseReference fdb;
-    ImageView search_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
