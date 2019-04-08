@@ -51,6 +51,7 @@ import com.itextpdf.kernel.pdf.canvas.parser.listener.FilteredEventListener;
 import com.itextpdf.kernel.pdf.canvas.parser.listener.LocationTextExtractionStrategy;
 import com.itextpdf.kernel.pdf.canvas.parser.listener.LocationTextExtractionStrategy.TextChunk;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import java.util.List;
@@ -281,10 +282,10 @@ public class Login extends AppCompatActivity {
         }
     }
 
-    public void getRawFromPDF(String path) {
+    public void getRawFromPDF(File file) {
         String parsedText = "";
         try {
-            PdfDocument pdfDoc = new PdfDocument(new PdfReader(path));
+            PdfDocument pdfDoc = new PdfDocument(new PdfReader(file));
             FilteredEventListener listener = new FilteredEventListener();
             LocationTextExtractionStrategy extractionStrategy = listener.attachEventListener(new LocationTextExtractionStrategy(), null);
             new PdfCanvasProcessor(listener).processPageContent(pdfDoc.getFirstPage());
@@ -294,7 +295,7 @@ public class Login extends AppCompatActivity {
             getDataFromRaw(actualText);
             loadTitle.setText("Reading data");
         } catch (Exception e) {
-            ButtonLoading(false, "Can't Parse File");
+            ButtonLoading(false, "File Upload Successful ");
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -497,7 +498,13 @@ public class Login extends AppCompatActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    getRawFromPDF(getRealPathFromURI(Login.this, uri));
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            getRawFromPDF(new File(uri.getPath()));
+                        }
+                    }, 1500);
+
                 }
             }, 1500);
         }
@@ -510,7 +517,7 @@ public class Login extends AppCompatActivity {
             cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             cursor.moveToFirst();
-            return cursor.getString(column_index);
+            return contentUri.toString();
         } catch (Exception e) {
             ButtonLoading(false, "Can't Find File");
             new Handler().postDelayed(new Runnable() {
@@ -519,7 +526,7 @@ public class Login extends AppCompatActivity {
                     adminReset();
                 }
             }, 1500);
-            return null;
+            return contentUri.toString();
         } finally {
             if (cursor != null) {
                 cursor.close();
